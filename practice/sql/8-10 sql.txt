@@ -1,0 +1,46 @@
+
+select id userName userAccount userRole from user
+where isDelete=0;
+
+SELECT id name url method from interface_info 
+where status=1;
+
+select id name createtime from interface_info 
+order by createTime 
+limit 5;
+
+select  * from user
+where name =admin;
+
+select u.userName,i.name,uii.totalNum,uii.leftNum 
+from `user` u
+join user_interface_info uii ON u.id =uii.userId
+join interface_info i ON i.id =uii.interfaceInfoId
+where uii.isDelete = 0
+     and i.isDelete = 0
+     and u.isDelete = 0;
+
+
+select i.name,SUM(totalNum) AS totalNum 
+from 'interface_info' i
+join user_interface_info uii ON i.id =uii.interfaceInfoId
+where i.isDelete = 0
+	and uii.isDelete = 0
+group by i.id i.name
+order by totalNum DESC
+
+select i.name,SUM(uii.totalNum) AS totalNum
+from user_interface_info uii
+join interface_info i ON uii.interfaceInfoId = i.id
+wher uii.isDelete=0 and i.isDelete=0
+group by i.id ,i.name
+order by totalNum DESC
+limit 3;
+
+select u.username ,SUM(uii.totalNum) AS totalNum 
+from user u
+join user_interface_info uii ON u.id = uii.userId
+where u.isDelete= 0 and uii.isDelete = 0
+group by u.id,u.userName
+order by totalNum DESC
+ 
